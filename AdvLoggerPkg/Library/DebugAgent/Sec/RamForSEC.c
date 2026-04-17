@@ -8,6 +8,7 @@
 **/
 
 #include <PiPei.h>
+#include <Library/MtrrLib.h>
 
 #include <AdvancedLoggerInternal.h>
 
@@ -23,17 +24,17 @@
 
 #define CACHE_FILL_DATA  0xA5C35A3C
 
-//
-// Memory cache types
-//
-typedef enum {
-  CacheUncacheable    = 0,
-  CacheWriteCombining = 1,
-  CacheWriteThrough   = 4,
-  CacheWriteProtected = 5,
-  CacheWriteBack      = 6,
-  CacheInvalid        = 7
-} MTRR_MEMORY_CACHE_TYPE;
+// //
+// // Memory cache types
+// //
+// typedef enum {
+//   CacheUncacheable    = 0,
+//   CacheWriteCombining = 1,
+//   CacheWriteThrough   = 4,
+//   CacheWriteProtected = 5,
+//   CacheWriteBack      = 6,
+//   CacheInvalid        = 7
+// } MTRR_MEMORY_CACHE_TYPE;
 
 /**
   Initializes the valid bits mask and valid address mask for MTRRs.
@@ -65,22 +66,22 @@ InitializeMtrrMask (
   *MtrrValidAddressMask = *MtrrValidBitsMask & 0xfffffffffffff000ULL;
 }
 
-/**
-  Get the variable MTRR count for the CPU.
+// /**
+//   Get the variable MTRR count for the CPU.
 
-  @return Variable MTRR count
+//   @return Variable MTRR count
 
-**/
-UINT32
-GetVariableMtrrCount (
-  VOID
-  )
-{
-  MSR_IA32_MTRRCAP_REGISTER  MtrrCap;                  // cspell:disable-line
+// **/
+// UINT32
+// GetVariableMtrrCount (
+//   VOID
+//   )
+// {
+//   MSR_IA32_MTRRCAP_REGISTER  MtrrCap;                  // cspell:disable-line
 
-  MtrrCap.Uint64 = AsmReadMsr64 (MSR_IA32_MTRRCAP);    // cspell:disable-line
-  return MtrrCap.Bits.VCNT;
-}
+//   MtrrCap.Uint64 = AsmReadMsr64 (MSR_IA32_MTRRCAP);    // cspell:disable-line
+//   return MtrrCap.Bits.VCNT;
+// }
 
 /**
   AllocateRamForSEC
@@ -147,7 +148,7 @@ AllocateRamForSEC (
     Mask.Uint64 = AsmReadMsr64 (MSR_IA32_MTRR_PHYSMASK0 + (Index << 1));
     if (Mask.Bits.V == 0) {
       Base.Uint64    = CarAddress & MtrrValidAddressMask;
-      Base.Bits.Type = CacheWriteBack;
+      Base.Bits.Type = CacheUncacheable;
       Mask.Uint64    =  (~((UINT64)(CarSize - 1))) & MtrrValidAddressMask;
       Mask.Bits.V    = 1;
 
@@ -223,6 +224,8 @@ AllocateRamForSEC (
   if (!Extendable) {
     return 0ULL;
   }
+
+  MtrrDebugPrintAllMtrrs();
 
   return CarAddress;
 }

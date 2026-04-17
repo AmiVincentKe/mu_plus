@@ -39,6 +39,7 @@
   MdePkg/MdePkg.dec
   MdeModulePkg/MdeModulePkg.dec
   AdvLoggerPkg/AdvLoggerPkg.dec
+  UefiCpuPkg/UefiCpuPkg.dec
 
 [LibraryClasses]
   AdvancedLoggerHdwPortLib
@@ -50,6 +51,7 @@
   MmUnblockMemoryLib
   PcdLib
   PeiServicesLib
+  MtrrLib
 
 [Ppis]
 

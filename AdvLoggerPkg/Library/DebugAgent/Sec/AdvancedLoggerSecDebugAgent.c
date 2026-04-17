@@ -19,6 +19,7 @@
   frequency operations is a performance issue.
 **/
 #include <Core/Pei/PeiMain.h>
+#include <Library/MtrrLib.h>
 
 #include <Library/AdvancedLoggerHdwPortLib.h>
 #include <Library/BaseMemoryLib.h>
@@ -122,6 +123,7 @@ InitializeDebugAgent (
     CarBase       = (EFI_PHYSICAL_ADDRESS)FixedPcdGet64 (PcdAdvancedLoggerCarBase);
 
     NewLogBuffer = AllocateRamForSEC (CarBase, LogBufferSize);
+    ZeroMem ((VOID *)(UINTN)NewLogBuffer, sizeof (LogBufferSize));
     if (NewLogBuffer != 0ULL) {
       LoggerInfo = ALI_FROM_PA (NewLogBuffer);
       ZeroMem ((VOID *)LoggerInfo, sizeof (ADVANCED_LOGGER_INFO));
