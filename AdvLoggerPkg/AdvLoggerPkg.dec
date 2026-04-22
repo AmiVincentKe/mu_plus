@@ -99,6 +99,11 @@
   #
   gAdvLoggerPkgTokenSpaceGuid.PcdAdvancedLoggerAutoWrapEnable|FALSE|BOOLEAN|0x00010188
 
+  ## PcdAdvancedLoggerSecUncache - Indicates the Advanced Logger that the memory cache type during SEC is Uncache
+  #                                TURE  - The Advanced Logger that the memory cache type during SEC is Uncache
+  #                                FALSE - The Advanced Logger that the memory cache type during SEC is WriteBack
+  #
+  gAdvLoggerPkgTokenSpaceGuid.PcdAdvancedLoggerSecUncache|FALSE|BOOLEAN|0x00010185
 
 [PcdsFixedAtBuild]
   ## Advanced Logger Base - NULL = UEFI starts with PEI or DXE, and there is no SEC, or SEC

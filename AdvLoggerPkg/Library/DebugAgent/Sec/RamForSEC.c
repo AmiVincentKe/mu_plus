@@ -147,7 +147,11 @@ AllocateRamForSEC (
     Mask.Uint64 = AsmReadMsr64 (MSR_IA32_MTRR_PHYSMASK0 + (Index << 1));
     if (Mask.Bits.V == 0) {
       Base.Uint64    = CarAddress & MtrrValidAddressMask;
-      Base.Bits.Type = CacheWriteBack;
+      if (FeaturePcdGet (PcdAdvancedLoggerSecUncache) == FALSE) {
+        Base.Bits.Type = CacheWriteBack;
+      } else {
+        Base.Bits.Type = CacheUncacheable;
+      }
       Mask.Uint64    =  (~((UINT64)(CarSize - 1))) & MtrrValidAddressMask;
       Mask.Bits.V    = 1;
 

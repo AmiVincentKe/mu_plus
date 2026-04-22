@@ -63,5 +63,8 @@
   gAdvLoggerPkgTokenSpaceGuid.PcdAdvancedLoggerPages                        ## CONSUMES
   gAdvLoggerPkgTokenSpaceGuid.PcdAdvancedLoggerHdwPortDebugPrintErrorLevel  ## CONSUMES
 
+[FeaturePcd]
+  PcdAdvancedLoggerSecUncache
+
 [UserExtensions.TianoCore."ExtraFiles"]
   AdvancedLoggerSecDebugAgent.uni
