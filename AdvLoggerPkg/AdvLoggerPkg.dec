@@ -105,6 +105,12 @@
   #
   gAdvLoggerPkgTokenSpaceGuid.PcdAdvancedLoggerSecUncache|FALSE|BOOLEAN|0x00010185
 
+  ## PcdAdvancedLoggerLargeMemory - Indicates the Advanced Logger required large memory pages in UEFI log
+  #                                 TURE  - The Advanced Logger that reserve large memory pages to aovid log missing
+  #                                 FALSE - The Advanced Logger that reserve memory pages as AdvLoggerPkg default PCD defined
+  #
+  gAdvLoggerPkgTokenSpaceGuid.PcdAdvancedLoggerLargeMemory|FALSE|BOOLEAN|0x00010191
+
 [PcdsFixedAtBuild]
   ## Advanced Logger Base - NULL = UEFI starts with PEI or DXE, and there is no SEC, or SEC
   #                                provides no memory log buffer
