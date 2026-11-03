@@ -488,6 +488,17 @@ def main() -> int:
             "Normally inferred from header Flags field."
         )
     )
+    parser.add_argument(
+        "--decode-script",
+        dest="decode_script",
+        default=None,
+        help=(
+            "Path to DecodeUefiLog.py. "
+            "Defaults to DecodeUefiLog/DecodeUefiLog.py next to this script. "
+            "Use this when the script is run from a different directory and "
+            "DecodeUefiLog.py is not co-located."
+        )
+    )
 
     args = parser.parse_args()
 
@@ -708,9 +719,13 @@ def main() -> int:
             f"header=0x{original_data_size:X}, actual=0x{len(raw_log):X}"
         )
 
-    decode_script = os.path.join(os.path.dirname(__file__), "DecodeUefiLog", "DecodeUefiLog.py")
+    decode_script = args.decode_script if args.decode_script else os.path.join(
+        os.path.dirname(os.path.abspath(__file__)), "DecodeUefiLog", "DecodeUefiLog.py"
+    )
+    decode_script = os.path.abspath(decode_script)
     if not os.path.isfile(decode_script):
         print(f"ERROR: DecodeUefiLog script not found: {decode_script}")
+        print("       Use --decode-script <path> to specify DecodeUefiLog.py location.")
         return 1
 
     output_dir = os.path.dirname(output_log_path)
